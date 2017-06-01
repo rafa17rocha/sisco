@@ -2,7 +2,9 @@ package br.usjt.arqsis.sisco.service;
 
 import br.usjt.arqsis.sisco.dao.EmpresaDAO;
 import br.usjt.arqsis.sisco.model.Empresa;
+
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class EmpresaService
 {
@@ -24,5 +26,10 @@ public class EmpresaService
 	public static boolean excluir(Empresa emp) throws SQLException, ClassNotFoundException
 	{
 		return EmpresaDAO.excluir(emp);
+	}
+
+	public static ArrayList<Empresa> consultar(String razaoSocial) throws ClassNotFoundException, SQLException
+	{
+		return EmpresaDAO.consultar(razaoSocial);
 	}
 }

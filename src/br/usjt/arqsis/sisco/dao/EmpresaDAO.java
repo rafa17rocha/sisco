@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import br.usjt.arqsis.sisco.dao.ConnectionFactory;
 import br.usjt.arqsis.sisco.model.Empresa;
@@ -53,14 +54,12 @@ public class EmpresaDAO
 		try (Connection con = ConnectionFactory.getConnection();
 				PreparedStatement preparador = con.prepareStatement(sql))
 		{
-			int hrFuncionamento = Integer.parseInt(emp.getHorarioDeFuncionamento());
-			int hrAr = Integer.parseInt(emp.getHorarioDoAr());
 
 			preparador.setString(1, emp.getRazaoSocial());
 			preparador.setLong(2, emp.getCnpj());
 			preparador.setInt(3, emp.getConjunto());
-			preparador.setInt(4, hrFuncionamento);
-			preparador.setInt(5, hrAr);
+			preparador.setString(4, emp.getHorarioDeFuncionamento());
+			preparador.setString(5, emp.getHorarioDoAr());
 			preparador.setInt(6, emp.getTemperatura());
 			preparador.execute();
 
@@ -86,14 +85,11 @@ public class EmpresaDAO
 		try (Connection con = ConnectionFactory.getConnection();
 				PreparedStatement preparador = con.prepareStatement(sql))
 		{
-			int hrFuncionamento = Integer.parseInt(emp.getHorarioDeFuncionamento());
-			int hrAr = Integer.parseInt(emp.getHorarioDoAr());
-
 			preparador.setString(1, emp.getRazaoSocial());
 			preparador.setLong(2, emp.getCnpj());
 			preparador.setInt(3, emp.getConjunto());
-			preparador.setInt(4, hrFuncionamento);
-			preparador.setInt(5, hrAr);
+			preparador.setString(4, emp.getHorarioDeFuncionamento());
+			preparador.setString(5, emp.getHorarioDoAr());
 			preparador.setInt(6, emp.getTemperatura());
 			preparador.setInt(7, emp.getId());
 
@@ -119,6 +115,38 @@ public class EmpresaDAO
 
 			return resultado == 1;
 		}
+	}
+
+	public static ArrayList<Empresa> consultar(String razaoSocial) throws ClassNotFoundException, SQLException
+	{
+		razaoSocial = razaoSocial == null ? "" : razaoSocial;
+		Empresa empresa;
+		ArrayList<Empresa> lista = new ArrayList<>();
+		
+		String sql = "SELECT * FROM empresa WHERE UPPER(razaoSocial) LIKE ?";
+		
+		try(Connection con = ConnectionFactory.getConnection();
+				PreparedStatement preparador = con.prepareStatement(sql))
+		{
+			preparador.setString(1, "%" + razaoSocial.toUpperCase() + "%");
+			
+			ResultSet resultado = preparador.executeQuery();
+			
+			while(resultado.next())
+			{
+				empresa = new Empresa();
+				empresa.setId(resultado.getInt("idEmpresa"));
+				empresa.setRazaoSocial(resultado.getString("razaoSocial"));
+				empresa.setCnpj(resultado.getLong("cnpj"));
+				empresa.setConjunto(resultado.getInt("conjuntoOcupado"));
+				empresa.setHorarioDeFuncionamento(resultado.getString("horarioFuncionamento"));
+				empresa.setHorarioDoAr(resultado.getString("horarioAr"));
+				empresa.setTemperatura(resultado.getInt("temperaturaAr"));
+				
+				lista.add(empresa);
+			}
+		}
+		return lista;
 	}
 
 }

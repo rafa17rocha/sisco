@@ -14,28 +14,43 @@
   <body>
   <!-- Menu Superior -->
   <c:import url="menuTop.jsp"/>
-
+  <!-- Menu Lateral -->
+<%--   <c:import url="menuLeft.jsp"/> --%>
+  <!-- Modal de Exclusão -->
+  <c:import url="ExcluirUsuario.jsp"/>
+  
     <div class="container-fluid">
       <div class="row">
-      <!-- Menu Lateral -->
-        <c:import url="menuLeft.jsp"/>
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-<!--           <h1 class="page-header">Usuários</h1> -->
-
+      
+<!--         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main"> -->
+        <div class="col-sm-12 col-md-12  main">
+        
           <h2 class="sub-header">Usuários Cadastrados</h2>
           
-          <form action="controller.do" method="post">
-          <div class="input-group h2">
-	          <input name="data[search]" class="form-control" id="search" type="text" placeholder="Pesquisar Clientes">
-		          <span class="input-group-btn">
-		          <button class="btn btn-primary"  type="submit" name="command" value="ListarUsuario">
-		          <span class="glyphicon glyphicon-search"></span>
-		          </button>
-	          </span>
+          <div class="row ">
+	          <div class="col-sm-12 col-md-12">
+		          <div class="col-sm-10 col-md-10">
+			          <form action="controller.do" method="post">
+				          <div class="input-group h2">
+					          <input name="data[search]" class="form-control" id="search" type="text" placeholder="Pesquisar Usuários">
+						          <span class="input-group-btn">
+						          <button class="btn btn-primary"  type="submit" name="command" value="ListarUsuario">
+						          <span class="glyphicon glyphicon-search"></span>
+						          </button>
+					          </span>
+				          </div>
+			          </form>
+		          </div>
+		          
+		          <div class="col-sm-2 col-md-2">
+			          <div class="input-group h2">
+			              <a href="CadastrarUsuario.jsp" class="btn btn-primary btn-block">Cadastrar</a>
+			          </div>
+			      </div>
+	          </div>
           </div>
-          </form>
           
-				<c:if test="${not empty lista}">
+				<c:if test="${not empty listaUsuarios}">
 					<div class="table-responsive">
 						<table class="table table-striped">
 							<thead>
@@ -48,18 +63,17 @@
 									<th>Livre Acesso</th>
 									<th>Altera Ar</th>
 									<th>Usuário</th>
-									<th>Senha</th>
 									<th>Ação<th>
 									</tr>
 								</thead>
 								<tbody>
-									<c:forEach var="usuario" items="${lista}">
+									<c:forEach var="usuario" items="${listaUsuarios}">
 									<tr>
 									<td>${usuario.id}</td>
 									<td>
-									<c:if test="${usuario.tipo == 0}">[0] Funcionário</c:if>
-									<c:if test="${usuario.tipo == 1}">[1] Atendente</c:if>
-									<c:if test="${usuario.tipo == 2}">[2] Síndico</c:if>
+									<c:if test="${usuario.tipo == 0}">Funcionário</c:if>
+									<c:if test="${usuario.tipo == 1}">Atendente</c:if>
+									<c:if test="${usuario.tipo == 2}">Síndico</c:if>
 									</td>
 									<td>${usuario.nome}</td>
 									<td>${usuario.cpf}</td>
@@ -77,14 +91,16 @@
 										</c:choose>
 									</td>
 									<td>${usuario.usuario}</td>
-									<td>${usuario.senha}</td>
 									<td class="actions">
-										<a href="controller.do?command=AlterarUsuario&cpf=${usuario.cpf}" class="btn btn-default btn-xs" role="button">
+										<a href="controller.do?command=VisualizarUsuario&id=${usuario.id}" class="btn btn-default btn-xs" role="button">
+					                      <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+					                    </a>
+										<a href="controller.do?command=AlterarUsuario&id=${usuario.id}" class="btn btn-default btn-xs" role="button">
 					                      <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
 					                    </a>
-					                    <a href="controller.do?command=RemoverUsuario&cpf=${usuario.cpf}" class="btn btn-default btn-xs" role="button">
-					                      <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-					                    </a>
+					                    <button id="btn${usuario.id}%>" type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#delete-modal" data-usuario="${usuario.id}">
+					                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+					                    </button>
 					                </td>
 									</tr>
 								</c:forEach>
@@ -97,7 +113,14 @@
       </div>
     </div>
 
-    <script src="js/jquery-1.12.4.min.js"></script>
+    <script src="js/jquery-3.2.1.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        $("#delete-modal").on('show.bs.modal', function(event){
+            var button = $(event.relatedTarget); //botao que disparou a modal
+            var recipient = button.data('usuario');
+            $("#id_excluir").val(recipient);
+        });
+    </script>
   </body>
 </html>

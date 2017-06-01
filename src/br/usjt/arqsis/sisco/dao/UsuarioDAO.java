@@ -11,17 +11,17 @@ import br.usjt.arqsis.sisco.model.Usuario;
 
 public class UsuarioDAO
 {
-	public static Usuario consultar(long cpf) throws SQLException, ClassNotFoundException
+	public static Usuario consultar(int id) throws SQLException, ClassNotFoundException
 	{
-		String sql = "SELECT idUsuario, tipo, nome, idEmpresa, expediente, livreAcesso, "
-				+ "alteraAr, usuario, senha FROM usuario WHERE cpf = ?";
+		String sql = "SELECT tipo, nome, cpf, idEmpresa, expediente, livreAcesso, "
+				+ "alteraAr, usuario, senha FROM usuario WHERE idUsuario = ?";
 
 		Usuario user = null;
 
 		try (Connection con = ConnectionFactory.getConnection();
 				PreparedStatement preparador = con.prepareStatement(sql))
 		{
-			preparador.setLong(1, cpf);
+			preparador.setInt(1, id);
 
 			ResultSet resultado = preparador.executeQuery();
 
@@ -29,9 +29,9 @@ public class UsuarioDAO
 			{
 				user = new Usuario();
 
-				int id = resultado.getInt("idUsuario");
 				byte tipo = resultado.getByte("tipo");
 				String nome = resultado.getString("nome");
+				long cpf = resultado.getLong("cpf");
 				int idEmpresa = resultado.getInt("idEmpresa");
 				String expediente = resultado.getString("expediente");
 				boolean livreAcesso = resultado.getBoolean("livreAcesso");
@@ -138,6 +138,7 @@ public class UsuarioDAO
 	
 	public static ArrayList<Usuario> consultar(String nome) throws ClassNotFoundException, SQLException
 	{
+		nome = nome == null ? "" : nome;
 		Usuario usuario;
 		ArrayList<Usuario> lista = new ArrayList<>();
 		
@@ -169,5 +170,22 @@ public class UsuarioDAO
 		}
 		return lista;
 	}
+	
+	public static boolean validar(Usuario user) throws SQLException, ClassNotFoundException
+	{
+		String sql = "SELECT usuario, senha FROM usuario WHERE usuario = ? and senha= ?";
 
+		try (Connection con = ConnectionFactory.getConnection();
+				PreparedStatement preparador = con.prepareStatement(sql))
+		{
+			preparador.setString(1, user.getUsuario());
+			preparador.setString(2, user.getSenha());
+
+			ResultSet resultado = preparador.executeQuery();
+
+			if (resultado.next())
+				return true;
+		}
+		return false;
+	}
 }

@@ -7,9 +7,9 @@ import java.util.ArrayList;
 
 public class UsuarioService
 {
-	public static Usuario consultar(long user) throws SQLException, ClassNotFoundException
+	public static Usuario consultar(int id) throws SQLException, ClassNotFoundException
 	{
-		return UsuarioDAO.consultar(user);
+		return UsuarioDAO.consultar(id);
 	}
 
 	public static boolean cadastrar(Usuario user) throws SQLException, ClassNotFoundException
@@ -30,5 +30,10 @@ public class UsuarioService
 	public static ArrayList<Usuario> consultar(String nome) throws ClassNotFoundException, SQLException
 	{
 		return UsuarioDAO.consultar(nome);
+	}
+	
+	public static boolean validar(Usuario usuario) throws ClassNotFoundException, SQLException
+	{
+		return UsuarioDAO.validar(usuario);
 	}
 }

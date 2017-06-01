@@ -20,9 +20,10 @@ public class Usuario implements Serializable
 	{
 	}
 	
-	public Usuario(int tipo, String nome, long cpf, int idEmpresa, String expediente, boolean livreAcessoCatraca,
+	public Usuario(int id, int tipo, String nome, long cpf, int idEmpresa, String expediente, boolean livreAcessoCatraca,
 			boolean alteraArEmpresa, String usuario, String senha)
 	{
+		setId(id);
 		setTipo(tipo);
 		setNome(nome);
 		setCpf(cpf);

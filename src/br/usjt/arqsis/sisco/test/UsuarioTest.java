@@ -17,7 +17,7 @@ public class UsuarioTest
 	@Test
 	public void test01_cadastrar() throws ClassNotFoundException, SQLException
 	{
-		Usuario user = new Usuario(2, "Testando Teste", 11111111111L, 0, "00001159", true, true, "teste", "teste");
+		Usuario user = new Usuario(0, 2, "Testando Teste", 11111111111L, 0, "00:00 - 11:59", true, true, "teste", "teste");
 
 		boolean ok = UsuarioService.cadastrar(user);
 
@@ -27,9 +27,10 @@ public class UsuarioTest
 	@Test
 	public void test02_consultar() throws ClassNotFoundException, SQLException
 	{
-		Usuario user1 = new Usuario(2, "Testando Teste", 11111111111L, 0, "00001159", true, true, "teste", "teste");
+		Usuario user1 = new Usuario(6, 2, "Testando Teste", 11111111111L, 0, "00:00 - 11:59", true, true, "teste", "teste");
 
-		Usuario user2 = UsuarioService.consultar(11111111111L);
+		// ID 6 porque no script 'dados.sql' há 5 usuários para inclusão
+		Usuario user2 = UsuarioService.consultar(6);
 
 		boolean ok = user1.toString().equals(user2.toString());
 
@@ -39,7 +40,7 @@ public class UsuarioTest
 	@Test
 	public void test03_alterar() throws ClassNotFoundException, SQLException
 	{
-		Usuario user = UsuarioService.consultar(11111111111L);
+		Usuario user = UsuarioService.consultar(6);
 		user.setCpf(10101010101L);
 		user.setNome("Teste Testado");
 
@@ -51,7 +52,7 @@ public class UsuarioTest
 	@Test
 	public void test04_excluir() throws ClassNotFoundException, SQLException
 	{
-		Usuario user = UsuarioService.consultar(10101010101L);
+		Usuario user = UsuarioService.consultar(6);
 		boolean ok = UsuarioService.excluir(user);
 
 		assertTrue(ok);

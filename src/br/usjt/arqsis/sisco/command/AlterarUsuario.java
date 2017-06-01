@@ -17,15 +17,19 @@ public class AlterarUsuario implements Command
 	@Override
 	public void executar(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
 	{
-		String reqCpf = req.getParameter("cpf");
+		String reqId = req.getParameter("id");
 		
-		long cpf = Long.parseLong(reqCpf);
+		int id = Integer.parseInt(reqId);
 		
 		Usuario usuario = null;
+		String expedienteEntrada = null;
+		String expedienteSaida = null;
 		
 		try
 		{
-			usuario = UsuarioService.consultar(cpf);
+			usuario = UsuarioService.consultar(id);
+			expedienteEntrada = usuario.getExpediente().substring(0,5);
+			expedienteSaida = usuario.getExpediente().substring(8,13);
 		}
 		catch (ClassNotFoundException | SQLException e)
 		{
@@ -34,7 +38,11 @@ public class AlterarUsuario implements Command
 		
 		HttpSession session = req.getSession();
 		
+		
+		
 		session.setAttribute("usuario", usuario);
+		session.setAttribute("expedienteEntrada", expedienteEntrada);
+		session.setAttribute("expedienteSaida", expedienteSaida);
 		
 		RequestDispatcher dispatcher = req.getRequestDispatcher("AlterarUsuario.jsp");
 		dispatcher.forward(req, resp);

@@ -34,7 +34,7 @@ public class ListarUsuario implements Command
 		
 		HttpSession session = req.getSession();
 		
-		session.setAttribute("lista", lista);
+		session.setAttribute("listaUsuarios", lista);
 		
 		RequestDispatcher dispatcher = req.getRequestDispatcher("usuarios.jsp");
 		dispatcher.forward(req, resp);

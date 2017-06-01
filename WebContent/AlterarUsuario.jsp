@@ -48,26 +48,31 @@
   <body>
   <!-- Menu Superior -->
   <c:import url="menuTop.jsp"/>
-<script type="text/javascript">
-    $('.clockpicker').clockpicker();
-</script>
+  <!-- Menu Lateral -->
+<%--   <c:import url="menuLeft.jsp"/> --%>
+
     <div class="container-fluid">
       <div class="row">
-      <!-- Menu Lateral -->
-        <c:import url="menuLeft.jsp"/>
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+      
+<!--         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main"> -->
+        <div class="col-sm-12 col-md-12 main">
           <h1 class="page-header">Alterar Usuário '${usuario.nome}'</h1>
           
-          <form class="form-horizontal">
-			<fieldset class="col-md-5">
-			
-			<!-- Form Name -->			
-			<!-- Text input-->
+          <form class="form-horizontal" action="controller.do" method="post">
+          
+      	    <input type="hidden" name="id" value="${usuario.id}"/>
+      	    
+			<fieldset class="col-md-6">
+			<!-- Select Basic -->
 			<div class="form-group">
-			  <label class="col-md-4 control-label" for="tipo">Tipo</label>  
+			  
+			  <label class="col-md-4 control-label" for="selectbasic">Tipo</label>
 			  <div class="col-md-8">
-			  <input name="tipo" class="form-control input-md" id="tipo" type="text" placeholder="Usuário, atendente ou síndico" value="${usuario.tipo}">
-			    
+			    <select id="tipo" name="tipo" class="form-control">
+			      <option value="0" <c:if test="${usuario.tipo == 0}">selected</c:if>>Funcionário</option>
+			      <option value="1" <c:if test="${usuario.tipo == 1}">selected</c:if>>Atendente</option>
+			      <option value="2" <c:if test="${usuario.tipo == 2}">selected</c:if>>Síndico</option>
+			    </select>
 			  </div>
 			</div>
 			
@@ -84,7 +89,7 @@
 			<div class="form-group">
 			  <label class="col-md-4 control-label" for="cpf">CPF</label>  
 			  <div class="col-md-8">
-			  <input name="cpf" class="form-control input-md" id="cpf" type="number" maxlength="15" pattern="(?:\d{2}\)|\d{2})[- ]?\d{5}[- ]?\d{4}" placeholder="11 dígitos" value="${usuario.cpf}">
+			  <input name="cpf" class="form-control input-md" id="cpf" type="number" maxlength="11" placeholder="11 dígitos" value="${usuario.cpf}">
 			    
 			  </div>
 			</div>
@@ -103,24 +108,24 @@
 			<label class="col-md-4 control-label" for="expediente">Expediente</label>
 			<div class="col-md-4">
 				<div class="input-group-block clockpicker" data-placement="top" data-align="top" data-autoclose="true">
-				<input type="text" class="form-control" value="09:00">
+				<input type="text" class="form-control" id="expedienteEntrada" name="expedienteEntrada" value="${expedienteEntrada}">
 				</div>
 			</div>
 			<div class="col-md-4">
 				<div class="input-group-block clockpicker" data-placement="top" data-align="top" data-autoclose="true">
-				<input type="text" class="form-control" value="18:00">
+				<input type="text" class="form-control" id="expedienteSaida" name="expedienteSaida" value="${expedienteSaida}">
 				</div>
 			</div>
 			</div>
 			</fieldset>
-			<fieldset class="col-md-5">
+			<fieldset class="col-md-6">
 			<!-- Select Basic -->
 			<div class="form-group">
 			  <label class="col-md-4 control-label" for="livreAcesso">Livre Acesso</label>
 			  <div class="col-md-8">
 			    <select name="livreAcesso" class="form-control" id="livreAcesso">
 			      <option value="false">Não</option>
-			      <option value="true">Sim</option>
+			      <option value="true" <c:if test="${usuario.livreAcesso}">selected</c:if> >Sim</option>
 			    </select>
 			  </div>
 			</div>
@@ -131,7 +136,7 @@
 			  <div class="col-md-8">
 			    <select name="alteraAr" class="form-control" id="alteraAr">
 			      <option value="false">Não</option>
-			      <option value="true">Sim</option>
+			      <option value="true" <c:if test="${usuario.alteraAr}">selected</c:if> >Sim</option>
 			    </select>
 			  </div>
 			</div>
@@ -156,12 +161,12 @@
 			
 			<!-- Button (Double) -->
 			<div class="form-group">
-			  <label class="col-md-4" for="salvar"></label>
+			  <label class="col-md-4"></label>
 			  <div class="col-md-4">
-			    <button name="salvar" class="btn btn-success btn-block outline" id="salvar">Salvar</button>
+			    <button type="submit" class="btn btn-success btn-block" name="command" id="salvar" value="AlterarUsuarioConfirmado">Salvar</button>
 			  </div>
 			  <div class="col-md-4">
-			    <button name="cancelar" class="btn btn-danger btn-block outline" id="cancelar">Cancelar</button>
+			  	<a href="usuarios.jsp" class="btn btn-danger btn-block">Cancelar</a>
 			  </div>
 			</div>
 			
@@ -174,15 +179,15 @@
 
     <script src="js/jquery-3.2.1.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="js/bootstrap-clockpicker.min.js"></script>
-	<script type="text/javascript" src="dist/bootstrap-clockpicker.min.js"></script>
+    <script src="js/bootstrap-clockpicker.min.js"></script>
 
 	<script type="text/javascript">
 		$('.clockpicker').clockpicker()
 			.find('input').change(function(){
 				// TODO: time changed
 				console.log(this.value);
-			});
+		});
 	</script>
+
   </body>
 </html>

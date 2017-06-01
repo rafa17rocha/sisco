@@ -14,19 +14,21 @@
   <body>
   <!-- Menu Superior -->
   <c:import url="menuTop.jsp"/>
+  <!-- Menu Lateral -->
+<%--   <c:import url="menuLeft.jsp"/> --%>
 
     <div class="container-fluid">
       <div class="row">
-      <!-- Menu Lateral -->
-        <c:import url="menuLeft.jsp"/>
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-          <h1 class="page-header">Sistema de Controle Predial</h1>
-
+<!--         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main"> -->
+        <div class="col-sm-12 col-md-12 main">
+          <h1 class="page-header" align="center">Sistema de Controle Predial</h1>
+          <br><br><br>
+          <img src="logo.png" class="img-responsive center-block" alt="Sistema de Controle Predial" width="auto" height="auto"> 
         </div>
       </div>
     </div>
 
-    <script src="js/jquery-1.12.4.min.js"></script>
+    <script src="js/jquery-3.2.1.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
   </body>
 </html>

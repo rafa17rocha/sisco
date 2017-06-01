@@ -23,8 +23,8 @@ CREATE TABLE `empresa`
   `razaoSocial` NVARCHAR(80) NOT NULL,
   `cnpj` BIGINT(14) UNSIGNED UNIQUE KEY NOT NULL,
   `conjuntoOcupado` TINYINT(3) UNSIGNED UNIQUE KEY NOT NULL,
-  `horarioFuncionamento` INT(8) UNSIGNED ZEROFILL NOT NULL,
-  `horarioAr` INT(8) UNSIGNED ZEROFILL NOT NULL,
+  `horarioFuncionamento` VARCHAR(13) NOT NULL,
+  `horarioAr` VARCHAR(13) NOT NULL,
   `temperaturaAr` TINYINT(2) UNSIGNED NOT NULL,
   PRIMARY KEY (`idEmpresa`),
   CONSTRAINT `fk_empresa_conjunto`
@@ -43,7 +43,7 @@ CREATE TABLE `usuario`
   `nome` NVARCHAR(80) NOT NULL,
   `cpf` BIGINT(11) UNSIGNED UNIQUE KEY NOT NULL,
   `idEmpresa` INT UNSIGNED,
-  `expediente` INT(8) UNSIGNED ZEROFILL DEFAULT 00002359,
+  `expediente` VARCHAR(13) DEFAULT '00:00 - 23:59',
   `livreAcesso` TINYINT(1) UNSIGNED NOT NULL,
   `alteraAr` TINYINT(1) UNSIGNED,
   `usuario` NVARCHAR(50) UNIQUE KEY NOT NULL,
@@ -54,10 +54,3 @@ CREATE TABLE `usuario`
     REFERENCES `empresa` (`idEmpresa`)
 )
 ENGINE = InnoDB;
-
-INSERT INTO conjunto VALUES(null, 11);
-INSERT INTO conjunto VALUES(null, 12);
-INSERT INTO conjunto VALUES(null, 21);
-INSERT INTO conjunto VALUES(null, 22);
-INSERT INTO conjunto VALUES(null, 31);
-INSERT INTO conjunto VALUES(null, 32);

@@ -17,9 +17,10 @@ public class Empresa implements Serializable
 	{
 	};
 
-	public Empresa(String razaoSocial, long cnpj, int conjunto, String horarioFuncionamento, String horarioAr,
+	public Empresa(int id, String razaoSocial, long cnpj, int conjunto, String horarioFuncionamento, String horarioAr,
 			int temperaturaAr)
 	{
+		this.id = id;
 		this.razaoSocial = razaoSocial;
 		this.cnpj = cnpj;
 		this.conjunto = conjunto;

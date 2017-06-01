@@ -8,12 +8,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">SISCO</a>
+      <a class="navbar-brand" href="index.jsp">SISCO</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="usuarios.jsp">Usuários</a></li>
-        <li><a href="empresas.jsp">Empresas</a></li>
+        <li><a href="controller.do?command=ListarUsuario">Usuários</a></li>
+        <li><a href="controller.do?command=ListarEmpresa">Empresas</a></li>
       </ul>
     </div>
   </div>
