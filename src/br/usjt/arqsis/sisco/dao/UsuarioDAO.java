@@ -171,20 +171,29 @@ public class UsuarioDAO
 		return lista;
 	}
 	
-	public static boolean validar(Usuario user) throws SQLException, ClassNotFoundException
+	public static boolean validar(Usuario usuario) throws SQLException, ClassNotFoundException
 	{
-		String sql = "SELECT usuario, senha FROM usuario WHERE usuario = ? and senha= ?";
+		String sql = "SELECT * FROM usuario WHERE usuario = ? and senha= ?";
 
 		try (Connection con = ConnectionFactory.getConnection();
 				PreparedStatement preparador = con.prepareStatement(sql))
 		{
-			preparador.setString(1, user.getUsuario());
-			preparador.setString(2, user.getSenha());
+			preparador.setString(1, usuario.getUsuario());
+			preparador.setString(2, usuario.getSenha());
 
 			ResultSet resultado = preparador.executeQuery();
 
 			if (resultado.next())
+			{
+				usuario.setId(resultado.getInt("idUsuario"));
+				usuario.setTipo(resultado.getInt("tipo"));
+				usuario.setNome(resultado.getString("Nome"));
+				usuario.setCpf(resultado.getLong("cpf"));
+				usuario.setExpediente(resultado.getString("expediente"));
+				usuario.setLivreAcesso(resultado.getBoolean("livreAcesso"));
+				usuario.setAlteraAr(resultado.getBoolean("alteraAr"));
 				return true;
+			}
 		}
 		return false;
 	}
